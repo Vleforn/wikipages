@@ -10,7 +10,7 @@ terraform {
 
   backend "azurerm" {
     resource_group_name  = "rg-terraform-wikipages-dev-weu-001"
-    storage_account_name = "stterraformwikipagesdevweu001"
+    storage_account_name = "sttfwikipagesdevweu001"
     container_name       = "tfstate"
     key                  = "wikipages.tfstate"
     use_azuread_auth     = true
