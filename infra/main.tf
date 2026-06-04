@@ -5,35 +5,35 @@ resource "azurerm_resource_group" "wikipages" {
 }
 
 resource "azurerm_storage_account" "wikipages" {
-  name = "stwpvleforndevweu001"
-  location = azurerm_resource_group.wikipages.location
-  resource_group_name = azurerm_resource_group.wikipages.name
+  name                     = "stwpvleforndevweu001"
+  location                 = azurerm_resource_group.wikipages.location
+  resource_group_name      = azurerm_resource_group.wikipages.name
   account_replication_type = "LRS"
-  account_tier = "Standard"
-  is_hns_enabled = true
+  account_tier             = "Standard"
+  is_hns_enabled           = true
 }
 
 # TODO: Connect containers to databricks as external locations
 resource "azurerm_storage_container" "bronze" {
-  name = "bronze"
+  name               = "bronze"
   storage_account_id = azurerm_storage_account.wikipages.id
 }
 
 resource "azurerm_storage_container" "silver" {
-  name = "silver"
+  name               = "silver"
   storage_account_id = azurerm_storage_account.wikipages.id
 }
 
 resource "azurerm_storage_container" "gold" {
-  name = "gold"
+  name               = "gold"
   storage_account_id = azurerm_storage_account.wikipages.id
 }
 
 resource "azurerm_databricks_workspace" "wikipages" {
-  name = "adb-wikipages-dev-weu-001"
-  location = azurerm_resource_group.wikipages.location
+  name                = "adb-wikipages-dev-weu-001"
+  location            = azurerm_resource_group.wikipages.location
   resource_group_name = azurerm_resource_group.wikipages.name
-  sku = "Standard"
+  sku                 = "Standard"
 }
 
 # # TODO: keyvault configuration
