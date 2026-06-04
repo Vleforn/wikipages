@@ -33,7 +33,7 @@ resource "azurerm_databricks_workspace" "wikipages" {
   name                = "adb-wikipages-dev-weu-001"
   location            = azurerm_resource_group.wikipages.location
   resource_group_name = azurerm_resource_group.wikipages.name
-  sku                 = "Standard"
+  sku                 = "standard"
 }
 
 # # TODO: keyvault configuration
