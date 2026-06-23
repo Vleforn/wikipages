@@ -15,6 +15,11 @@ resource "azurerm_storage_account" "wikipages" {
 
 # TODO: Connect containers to databricks as external locations
 resource "azurerm_storage_container" "bronze" {
+  name               = "inbox"
+  storage_account_id = azurerm_storage_account.wikipages.id
+}
+
+resource "azurerm_storage_container" "bronze" {
   name               = "bronze"
   storage_account_id = azurerm_storage_account.wikipages.id
 }
