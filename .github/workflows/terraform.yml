@@ -30,7 +30,12 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
-      - run: terraform init
+      - run: |
+          terraform init \
+          -backend-config="resource_group_name=${{ vars.AZURE_BACKEND_RG }}" \
+          -backend-config="storage_account_name=${{ vars.AZURE_BACKEND_SA }}" \
+          -backend-config="container_name=${{ vars.AZURE_BACKEND_CONTAINER }}" \
+          -backend-config="key=${{ vars.AZURE_BACKEND_KEY }}"
       - run: terraform fmt -check
       - run: terraform validate
 
