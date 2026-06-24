@@ -9,10 +9,10 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "rg-terraform-wikipages-dev-weu-001"
-    storage_account_name = "sttfwikipagesdevweu001"
-    container_name       = "tfstate"
-    key                  = "wikipages.tfstate"
+    resource_group_name  = "${var.AZURE_BACKEND_RG}"
+    storage_account_name = "${var.AZURE_BACKEND_SA}"
+    container_name       = "${var.AZURE_BACKEND_CONTAINER}"
+    key                  = "${VAR.AZURE_BACKEND_KEY}"
     use_azuread_auth     = true
     use_oidc             = true
   }
