@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "wikipages" {
 }
 
 resource "azurerm_storage_account" "wikipages" {
-  name                     = "stwpvleforndevweu001"
+  name                     = "stwpweu${local.name_suffix}"
   location                 = azurerm_resource_group.wikipages.location
   resource_group_name      = azurerm_resource_group.wikipages.name
   account_replication_type = "LRS"
