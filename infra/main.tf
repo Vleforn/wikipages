@@ -41,24 +41,19 @@ resource "azurerm_databricks_workspace" "wikipages" {
   sku                 = "premium"
 }
 
-# # TODO: keyvault configuration
-# resource "azurerm_key_vault" "wikipages" {
-#   name = "kv-wikipages-dev-weu-001"
-#   location = azurerm_resource_group.wikipages.location
-#   resource_group_name = azurerm_resource_group.wikipages.name
-#   tenant_id = "???"
-#   sku_name = "???"
-# }
+resource "azurerm_databricks_access_connector" "wikipages" {
+  name                = "dac-wikipages-dev-weu-001"
+  resource_group_name = azurerm_resource_group.wikipages.name
+  location            = azurerm_resource_group.wikipages.location
 
+  identity {
+    type = "SystemAssigned"
+  }
+}
 
-# Databricks resources
-
-# TODO: Unity Catalog???
-
-# output "resource_group_id" {
-#   value = azurerm_resource_group.smoketest.id
-# }
-
-# output "resource_group_dysonschwinger_id" {
-#   value = azurerm_resource_group.smoketest.id
-# }
+resource "azurerm_role_assignment" "dac-storage" {
+  scope                = azurerm_storage_account.wikipages.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_databricks_access_connector.wikipages.identity[0].principal_id
+  depends_on           = [azurerm_databricks_access_connector.wikipages, azurerm_storage_account.wikipages]
+}
