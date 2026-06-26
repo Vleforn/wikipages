@@ -51,9 +51,20 @@ resource "azurerm_databricks_access_connector" "wikipages" {
   }
 }
 
+locals {
+  storage_roles = toset([
+    "Storage Blob Data Contributor",
+    "Storage Account Contributor",
+    "EventGrid EventSubscription Contributor",
+    "Storage Queue Data Contributor",
+  ])
+}
+
 resource "azurerm_role_assignment" "dac-storage" {
+  for_each = local.storage_roles
+
   scope                = azurerm_storage_account.wikipages.id
-  role_definition_name = "Storage Blob Data Contributor"
+  role_definition_name = each.value
   principal_id         = azurerm_databricks_access_connector.wikipages.identity[0].principal_id
   depends_on           = [azurerm_databricks_access_connector.wikipages, azurerm_storage_account.wikipages]
 }
